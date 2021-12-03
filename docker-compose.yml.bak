@@ -1,0 +1,44 @@
+version: '3.7'
+services:  
+  db:
+    image: mysql:8.0.19
+    restart: always
+    ports: 
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: 'laraapp_db'
+      MYSQL_ROOT_PASSWORD: qwe
+      MYSQL_USER: new
+      MYSQL_PASSWORD: qqq
+    volumes:
+      - ./db:/var/lib/mysql
+    networks:
+      - my-network
+
+  phpmyadmin:
+    depends_on:
+      - db
+    image: phpmyadmin/phpmyadmin
+    container_name: pma
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: qwe
+    restart: always
+    ports:
+      - 9090:80
+    networks:
+      - my-network
+
+  app:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    image: 'laravelapp'
+    ports:
+      - 90:80
+    volumes:
+      - ./:/var/www/html
+
+networks:
+  my-network:

@@ -1,0 +1,4 @@
+https://webomnizz.com/containerize-your-laravel-application-with-docker-compose/
+
+docker ps / docker exec -it <CONTAINER ID> bash
+composer install
